@@ -1,0 +1,123 @@
+body,textarea,input{
+	font: 13px "Trebuchet MS",sans-serif;
+	
+}
+.title{
+	background: #f01a4e;
+	padding: 1px 1px; width: inherit;
+}
+body{ background: #6c6f6f; }
+.chat{
+	box-shadow: 2px 3px 10px 3px black;
+	padding: 8px 8px;
+	background: #f1f2f3;
+	width: 500px;
+	margin: 0 auto;
+	border-radius: 6px;
+	border: 1px solid lightgray;
+}
+.chat-messages{
+	overflow-y: scroll;
+	height: 400px;
+	margin-top: 3px; margin-bottom: 3px;
+}
+.chat-name{
+	background: #fff;
+	padding: 4px 4px; 
+	height: 30px;
+	width: 98%;
+	outline: none;
+	border: 1px solid darkgray;
+}
+
+.chat-name:focus{
+	box-shadow: 1px 0px 3px black;
+}
+.chat-text{
+	background: #fff;
+	padding: 4px 4px; 
+	height: 100px;
+	width: 98%;
+	outline: none;
+	border: 1px solid darkgray;
+	position: relative;
+	max-width: 98%;
+	padding-bottom: 60px;
+}
+.chat-text:focus{
+	box-shadow: 1px 0px 3px black;
+}
+.send-group{ position: relative; }
+.send-btn{
+	border: none;
+	background: #f01a4e; color: white;
+	padding-left: 30px; padding-right: 30px; align-content: center;
+	border-radius: 30px; 
+	box-shadow: 1px 2px 3px gray;
+	font-size: 23px;
+	height: 45px; 
+	position: absolute; bottom: 5px; right: 15px;
+	transition: .3s;
+}
+.send-btn:hover{
+	background: #11836c;
+}
+
+.chat-message-left{
+		min-height: 30px; 
+		padding: 10px 10px; border-radius: 8px;
+		margin-top: 20px;
+		text-align: left;
+		background: #f01a4e;
+		color: #fff;
+		position: relative;
+}
+.chat-message-left:before {
+	content: " ";
+	border-left: 13px solid transparent;
+	border-right: 13px solid transparent;
+	border-bottom: 13px solid #f01a4e;
+	position: absolute; top: -13px; left: 20px; 
+	z-index: 9999;
+}
+.chat-message-right{
+		min-height: 30px; 
+		padding: 10px 10px; border-radius: 8px;
+		margin-top: 20px; 
+		text-align: right;
+		background:  #253646;
+		position: relative;
+		color: #fff;	
+}
+.chat-message-right:before {
+	content: " ";
+	border-left: 13px solid transparent;
+	border-right: 13px solid transparent;
+	border-top: 13px solid #253646;
+	position: absolute; bottom: -13px; right: 20px; 
+	z-index: 9999;
+}
+.sender{
+	background: black; color: #fff; padding: 3px 2px; border-radius: 20px; 
+}
+.from{
+	border-radius: 10px;
+	padding: 3px 3px; color:#fff;
+	background:  #0f1325;
+	margin-right: 5px;
+}
+
+
+/** little bit of media query to make the page look nice on mobile devices.. **/
+@media only screen and (max-width: 700px){
+	.chat{
+		width: 94%;
+		margin: 0 0 0 0;
+	}
+	.send-btn{
+		padding-left: 0px; padding-right: 0px;
+		height: 35px; width: 35px; border-radius: 30px;
+	}
+	.content{ display: none; }
+}
+

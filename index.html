@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<link rel="stylesheet" type="text/css" href="fontawesome/css/font-awesome.css">
+	<script type="text/javascript" src="scripts/jquery.js"></script>
+	<title>ApChat</title>
+</head>
+<body>
+	<div class="chat">
+		<input type="text" class="chat-name" placeholder="Enter your name">
+		
+		<div class="chat-messages">Chat History: <br/>
+
+		</div>
+		<div class="send-group">
+			<textarea class="chat-text" placeholder="Enter your message here"></textarea>
+			<button type="button" class="send-btn"><span class="content">SEND</span> <i class="fa fa-paper-plane" aria-hidden="true"></i>
+			</button>
+		</div>
+		<div>Status : <span class="chat-status">disconnected</span>, <span>press Ctrl+Enter to send.</span> </div>
+		</div>
+	</div>
+	<script src="http://172.16.177.204:8080/socket.io/socket.io.js"></script>
+	<script>
+		$(function(){
+			try{
+				var socket=io.connect("http://172.16.177.204:8080");
+
+			}catch(e){
+
+			}
+			$('.chat-text').keydown(function (e) {
+
+  				if (e.ctrlKey && e.keyCode == 13) {
+   				 // Ctrl-Enter pressed
+   				 $('.send-btn').trigger('click');
+  				}
+			});
+
+			// function for autoscrolling
+			function autoScroll(){
+				 $(".chat-messages").scrollTop(1E10);
+    			
+			}
+
+			if(socket!==undefined){
+				$('.chat-status').html('<span style="color: green;"> <i class="fa fa-circle"aria-hidden="true"></i> connected</span>');
+				socket.on('status',function(s){
+					var chatName=$('.chat-name').val();
+					var chatTextArea=$('.chat-text').val();
+					$('.chat-status').html(s);
+					if(s.indexOf('fa-check')!=-1){
+						$('.chat-messages').append('<div class="chat-message-right"><span class="from">'+chatName+" : </span>"+chatTextArea +"</div>");
+						$('.chat-text').val("");
+						autoScroll();
+
+					}
+				});
+
+
+				//Listen for new message....
+				socket.on('newmessage',function(data){
+						if(data.name!=$('.chat-name').val())
+						$('.chat-messages').append('<div class="chat-message-left"><span class="from">'+data.name+' : </span>'+data.message +'</div>');
+						autoScroll();
+				});
+
+				// Listen for output...
+				socket.on('output',function(data){
+					var chatName=$('.chat-name').val();
+					for(var i=0;i<data.length;i++)
+						$('.chat-messages').append('<div class="chat-message-left"><span class="from">'+data[i].name+" : </span>"+data[i].message +"</div>");
+					autoScroll();
+					});
+
+				$('.send-btn').on('click',function(){
+					var chatName=$('.chat-name').val();
+					var chatTextArea=$('.chat-text').val();
+					socket.emit('input',{"name":chatName,"message":chatTextArea} );
+				});
+			}
+		});
+
+	</script>
+</body>
+</html>
