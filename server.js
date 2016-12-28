@@ -17,13 +17,20 @@ port=(port===null)?8080: port;
 var	client=require('socket.io').listen(port).sockets;
 
 console.log("Server Running on port : "+port);
+
+//Connecting to mongodb database....
+
 mongo.connect('mongodb://0.0.0.0/chat',function(err,db){
 	if(err) throw err;
-	client.on('connection',function(socket){
+
+	//Now waiting for client to connect....
+	client.on('connection',function(socket)
+	{
 		console.log('someone has connected..');
 
 		var data_base=db.collection('messages');
 
+		// emit status to client....
 		var sendStatus=function(s){
 			socket.emit('status',s);
 		};
@@ -34,10 +41,13 @@ mongo.connect('mongodb://0.0.0.0/chat',function(err,db){
 			socket.emit('output',res);
 		});
 
-		// send message to all connected user....
+		// send new message to all connected user....
 		socket.on('input',function(data){
 			console.log(data);
 			var name=data.name,message=data.message,pattern=/^\s*$/;
+
+			// check if the message is not empty or the chat name is not empty...
+
 			if(pattern.test(name) || pattern.test(message))
 			{
 				sendStatus("Name or message field can't be empty");
@@ -53,5 +63,8 @@ mongo.connect('mongodb://0.0.0.0/chat',function(err,db){
 				});
 			}
 		});
+	});
+	client.on('disconnect',function(data){
+		console.log("User "+data.name+" Disconencted...");
 	});
 });

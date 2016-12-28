@@ -24,66 +24,6 @@
 		</div>
 	</div>
 	<script src="http://172.16.177.204:8080/socket.io/socket.io.js"></script>
-	<script>
-		$(function(){
-			try{
-				var socket=io.connect("http://172.16.177.204:8080");
-
-			}catch(e){
-
-			}
-			$('.chat-text').keydown(function (e) {
-
-  				if (e.ctrlKey && e.keyCode == 13) {
-   				 // Ctrl-Enter pressed
-   				 $('.send-btn').trigger('click');
-  				}
-			});
-
-			// function for autoscrolling
-			function autoScroll(){
-				 $(".chat-messages").scrollTop(1E10);
-    			
-			}
-
-			if(socket!==undefined){
-				$('.chat-status').html('<span style="color: green;"> <i class="fa fa-circle"aria-hidden="true"></i> connected</span>');
-				socket.on('status',function(s){
-					var chatName=$('.chat-name').val();
-					var chatTextArea=$('.chat-text').val();
-					$('.chat-status').html(s);
-					if(s.indexOf('fa-check')!=-1){
-						$('.chat-messages').append('<div class="chat-message-right"><span class="from">'+chatName+" : </span>"+chatTextArea +"</div>");
-						$('.chat-text').val("");
-						autoScroll();
-
-					}
-				});
-
-
-				//Listen for new message....
-				socket.on('newmessage',function(data){
-						if(data.name!=$('.chat-name').val())
-						$('.chat-messages').append('<div class="chat-message-left"><span class="from">'+data.name+' : </span>'+data.message +'</div>');
-						autoScroll();
-				});
-
-				// Listen for output...
-				socket.on('output',function(data){
-					var chatName=$('.chat-name').val();
-					for(var i=0;i<data.length;i++)
-						$('.chat-messages').append('<div class="chat-message-left"><span class="from">'+data[i].name+" : </span>"+data[i].message +"</div>");
-					autoScroll();
-					});
-
-				$('.send-btn').on('click',function(){
-					var chatName=$('.chat-name').val();
-					var chatTextArea=$('.chat-text').val();
-					socket.emit('input',{"name":chatName,"message":chatTextArea} );
-				});
-			}
-		});
-
-	</script>
+	<script src="scripts/socket.js"></script>
 </body>
 </html>
