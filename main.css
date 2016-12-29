@@ -18,6 +18,7 @@ body{ background: #6c6f6f; }
 }
 .chat-messages{
 	overflow-y: scroll;
+	overflow-x: hidden;
 	height: 400px;
 	margin-top: 3px; margin-bottom: 3px;
 }

@@ -63,8 +63,8 @@ mongo.connect('mongodb://0.0.0.0/chat',function(err,db){
 				});
 			}
 		});
-	});
-	client.on('disconnect',function(data){
-		console.log("User "+data.name+" Disconencted...");
+		socket.on('disconnect',function(data){
+			console.log("Some user Disconencted...");
+		});
 	});
 });

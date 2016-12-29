@@ -72,8 +72,5 @@ $(function(){
 					socket.emit('input',{"name":chatName,"message":chatTextArea} );
 				});
 
-				window.onbeforeunload = function() {
-    				socket.emit('disconnect',{"name":$('.chat-name').val() } );
-				};
 			}
 });
