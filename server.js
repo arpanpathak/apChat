@@ -35,7 +35,7 @@ mongo.connect('mongodb://0.0.0.0/chat',function(err,db){
 			socket.emit('status',s);
 		};
 	
-		//emit all messages... maximum 1000 previous messages will be displayed...
+		//emit all messages for new user... maximum 1000 previous messages will be displayed...
 		data_base.find().limit(1000).sort({_id:1}).toArray(function(err,res){
 			if(err) throw err;
 			socket.emit('output',res);
@@ -63,6 +63,13 @@ mongo.connect('mongodb://0.0.0.0/chat',function(err,db){
 				});
 			}
 		});
+
+		// if someone is typing ....
+		socket.on('typing',function(data){
+			client.emit('typing',data);
+		});
+
+		// Display disconnected log...
 		socket.on('disconnect',function(data){
 			console.log("Some user Disconencted...");
 		});
